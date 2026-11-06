@@ -5,9 +5,10 @@ import { useEffect, useRef } from "react";
 type RevealProps = {
   children: React.ReactNode;
   className?: string;
+  delay?: number;
 };
 
-export function Reveal({ children, className = "" }: RevealProps) {
+export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export function Reveal({ children, className = "" }: RevealProps) {
   }, []);
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={`reveal ${className}`} style={delay ? { animationDelay: `${delay}ms` } : undefined}>
       {children}
     </div>
   );

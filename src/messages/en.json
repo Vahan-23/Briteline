@@ -1,0 +1,265 @@
+{
+  "meta": {
+    "title": "Briteline Ltd | Renovations & bespoke joinery",
+    "titleTemplate": "%s | Briteline Ltd",
+    "description": "Briteline Ltd designs and fits kitchens, bathrooms, wardrobes and bespoke joinery, and takes on full home renovations. Ask for a free quote.",
+    "ogImageAlt": "Alcove shelving with the Briteline Ltd logo.",
+    "projects": {
+      "title": "Projects",
+      "ogTitle": "Projects | Briteline Ltd",
+      "description": "Kitchens, bathrooms, fitted wardrobes and alcove shelving finished by Briteline Ltd."
+    },
+    "privacy": {
+      "title": "Privacy policy",
+      "ogTitle": "Privacy policy | Briteline Ltd",
+      "description": "How Briteline Ltd uses the details you send through this website."
+    }
+  },
+  "nav": {
+    "services": "Services",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact",
+    "primary": "Primary",
+    "mobile": "Mobile",
+    "getQuote": "Get a quote",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skip": "Skip to content",
+    "language": "Language"
+  },
+  "languages": {
+    "en": "English",
+    "ru": "Русский",
+    "hy": "Հայերեն"
+  },
+  "hero": {
+    "eyebrow": "Briteline Ltd",
+    "title": "Renovations & bespoke joinery, finished to the last detail",
+    "subtitle": "Kitchens, bathrooms, fitted wardrobes and alcove joinery, made and fitted with care.",
+    "quote": "Get a free quote",
+    "work": "See our work",
+    "imageAlt": "Alcove shelving with LED lighting and white cupboards either side of a fireplace."
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "What we design and fit",
+    "items": {
+      "kitchens": {
+        "title": "Kitchens",
+        "summary": "Design, supply and fitting, including worktops and splashbacks."
+      },
+      "bathrooms": {
+        "title": "Bathrooms & wet rooms",
+        "summary": "Tiling, walk-in showers, LED niches and rooms prepared for underfloor heating."
+      },
+      "wardrobes": {
+        "title": "Fitted wardrobes & bespoke joinery",
+        "summary": "Made-to-measure bedroom furniture, painted and fitted in place."
+      },
+      "shelving": {
+        "title": "Alcove units, shelving & media walls",
+        "summary": "Cupboards and open shelves, with integrated LED lighting where it suits the room."
+      },
+      "doors": {
+        "title": "Internal doors & carpentry",
+        "summary": "Doors, architrave and the smaller carpentry that finishes a room."
+      },
+      "renovation": {
+        "title": "Full home renovation",
+        "summary": "Refurbishment coordinated from strip-out through to the finished joinery."
+      }
+    }
+  },
+  "projects": {
+    "eyebrow": "Projects",
+    "title": "Recent work",
+    "intro": "A few finished rooms. Select a photo to look through the set.",
+    "viewAll": "View all projects",
+    "pageTitle": "Our work",
+    "pageIntro": "Filter by room, then select a photo. The shower niche is shown only as a small detail.",
+    "filtersLabel": "Filter projects",
+    "empty": "No projects in this category yet.",
+    "allProjects": "All projects",
+    "filters": {
+      "all": "All",
+      "kitchens": "Kitchens",
+      "bathrooms": "Bathrooms",
+      "wardrobes": "Wardrobes & Joinery",
+      "shelving": "Shelving"
+    },
+    "items": {
+      "alcove-shelving-wide": {
+        "title": "Alcove shelving",
+        "caption": "Open shelves, LED strips and cupboards either side of the fireplace.",
+        "alt": "Alcove shelving with warm LED strips and white cupboards either side of a fireplace, in a room with herringbone parquet flooring."
+      },
+      "alcove-shelving-window": {
+        "title": "Alcove shelving",
+        "caption": "The same alcoves from the window side, with shelf lighting washing the back panels.",
+        "alt": "Second view of alcove shelving with LED lighting and white cupboards beside a fireplace, with a sash window to the right."
+      },
+      "handleless-kitchen": {
+        "title": "Handleless kitchen",
+        "caption": "U-shaped run, quartz worktop and splashback, parquet floor.",
+        "alt": "U-shaped handleless kitchen with a pale quartz worktop and splashback, built-in oven and herringbone parquet floor."
+      },
+      "shaker-wardrobes": {
+        "title": "Shaker wardrobes",
+        "caption": "Floor-to-ceiling shaker doors in a cream paint finish.",
+        "alt": "Floor-to-ceiling cream shaker fitted wardrobes during fitting, with panelled doors and a matching internal door."
+      },
+      "walk-in-shower": {
+        "title": "Walk-in shower",
+        "caption": "Glass screen, large-format tiles and a heated towel rail.",
+        "alt": "Walk-in shower with a glass screen, large-format stone-effect tiles and a chrome heated towel rail."
+      },
+      "cloakroom-wc": {
+        "title": "Cloakroom WC",
+        "caption": "Wall-hung pan, concealed cistern and a chrome towel rail.",
+        "alt": "Cloakroom WC with a wall-hung toilet, concealed cistern, basin and a chrome heated towel rail."
+      },
+      "shower-niche": {
+        "title": "LED shower niche",
+        "caption": "Recessed niche with LED lighting. Detail photo only.",
+        "alt": "Small view of a recessed shower niche with warm LED lighting, set into stone-effect tiles. A reflection is visible in the glass."
+      }
+    }
+  },
+  "lightbox": {
+    "counter": "{current} of {total}",
+    "close": "Close gallery",
+    "previous": "Previous project",
+    "next": "Next project"
+  },
+  "video": {
+    "eyebrow": "On site",
+    "title": "A finished bathroom, start to finish",
+    "body": "A short walk-through of a completed bathroom: tiled walls, a walk-in shower and an LED niche. The film is silent.",
+    "posterAlt": "Rainfall shower and a lit recessed niche in a stone-effect tiled bathroom.",
+    "play": "Play",
+    "pause": "Pause"
+  },
+  "why": {
+    "eyebrow": "Why Briteline",
+    "title": "How the work is run",
+    "intro": "TODO: confirm with client. These points are draft copy.",
+    "items": {
+      "joiners": {
+        "title": "In-house joiners and tradesmen",
+        "text": "Joinery and the main trades are carried out by Briteline’s own people."
+      },
+      "sites": {
+        "title": "Clean and tidy sites",
+        "text": "Rooms are protected and left swept at the end of each day."
+      },
+      "quotes": {
+        "title": "Fixed written quotes",
+        "text": "The price is set out in writing before work starts."
+      },
+      "detail": {
+        "title": "Attention to detail",
+        "text": "Shadow gaps, lighting and the last coat of paint are part of the job, not an extra."
+      }
+    }
+  },
+  "process": {
+    "eyebrow": "Process",
+    "title": "From the first visit to handover",
+    "items": {
+      "visit": {
+        "title": "Visit & measure",
+        "text": "We come to the property, measure the room and talk through what you want from it."
+      },
+      "design": {
+        "title": "Design & quote",
+        "text": "You receive a design and a fixed written quote before anything is ordered."
+      },
+      "build": {
+        "title": "Build",
+        "text": "Joinery is made and the room is fitted, with the site kept clean as the work goes on."
+      },
+      "handover": {
+        "title": "Handover",
+        "text": "We walk the finished room with you and deal with any snagging before we leave."
+      }
+    }
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "Briteline Ltd",
+    "body": "Briteline Ltd carries out home renovations and bespoke joinery — kitchens, bathrooms, fitted wardrobes, alcove furniture and full refurbishments."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Ask for a quote",
+    "intro": "Tell us about the room and we will come back to you to arrange a visit.",
+    "phone": "Phone",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "whatsappCta": "Message on WhatsApp",
+    "serviceArea": "Service area",
+    "serviceAreaValue": "TODO: confirm with client. Assumed London and surrounding areas.",
+    "name": "Name",
+    "postcode": "Postcode",
+    "service": "Service",
+    "servicePlaceholder": "Select a service",
+    "message": "Message",
+    "photo": "Photo of the space",
+    "optional": "optional",
+    "photoHint": "JPEG, PNG or WEBP, up to 5 MB.",
+    "submit": "Send enquiry",
+    "sending": "Sending…",
+    "success": "Thank you. We have received your enquiry and will be in touch.",
+    "error": "The form could not be sent. Please call or email us and we will take the details from you.",
+    "unconfigured": "The online form is not connected yet. Please call, email or WhatsApp us and we will arrange the quote.",
+    "subject": "New quote enquiry — Briteline website",
+    "errors": {
+      "name": "Enter your name.",
+      "phone": "Enter a UK phone number.",
+      "email": "Enter a valid email address.",
+      "postcode": "Enter a UK postcode.",
+      "service": "Choose a service.",
+      "message": "Tell us a little about the work (at least 10 characters).",
+      "photoType": "The attachment needs to be an image.",
+      "photoSize": "Please use a photo smaller than 5 MB."
+    }
+  },
+  "footer": {
+    "tagline": "Renovations and bespoke joinery, finished to the last detail.",
+    "visit": "Visit",
+    "contact": "Contact",
+    "copyright": "© {year} Briteline Ltd",
+    "company": "Company no. {number}",
+    "privacy": "Privacy policy",
+    "companyNumber": "TODO: confirm company registration number"
+  },
+  "whatsapp": {
+    "label": "WhatsApp",
+    "message": "Hi, I'd like a quote for…"
+  },
+  "privacy": {
+    "eyebrow": "Privacy",
+    "title": "Privacy policy",
+    "todo": "TODO: confirm this wording with the client before launch.",
+    "paragraphs": [
+      "This page explains what {company} does with information you send through this website. The company address is not published yet ({address}).",
+      "If you use the quote form, you may send your name, phone number, email address, postcode, the service you need, a message, and an optional photo. Those details are sent to the form provider configured for this site so we can reply. The notification email for that provider should be {email}.",
+      "You can also contact us directly by phone on {phone}, by email at {email}, or on WhatsApp. WhatsApp is provided by WhatsApp LLC and has its own privacy policy.",
+      "This website does not use advertising cookies or an analytics service. It does not ask you to create an account.",
+      "To ask for a copy of your enquiry, or to ask us to delete it, email {email} or call {phone}."
+    ]
+  },
+  "notFound": {
+    "eyebrow": "404",
+    "title": "Page not found",
+    "body": "That page is not on this site.",
+    "home": "Back to the homepage"
+  },
+  "logoAlt": "Briteline Ltd",
+  "placeholders": {
+    "address": "TODO: confirm street address with client",
+    "locality": "TODO: confirm town or city with client",
+    "postcode": "TODO: confirm postcode with client"
+  }
+}

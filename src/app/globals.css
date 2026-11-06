@@ -61,10 +61,6 @@ textarea:focus-visible {
   outline-color: #ffffff;
 }
 
-.reveal-in {
-  animation: reveal 700ms ease both;
-}
-
 @keyframes reveal {
   from {
     opacity: 0;
@@ -76,12 +72,134 @@ textarea:focus-visible {
   }
 }
 
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes type-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+html.page-leave body {
+  animation: page-out 400ms ease forwards;
+}
+
+html.page-enter body {
+  animation: page-in 560ms ease both;
+}
+
+.type-char {
+  opacity: 0;
+  animation: type-in 1ms linear forwards;
+}
+
+.type-caret {
+  display: inline-block;
+  width: 1px;
+  height: 0.72em;
+  margin-left: 2px;
+  background: currentColor;
+  vertical-align: -0.05em;
+  opacity: 0;
+  animation: caret 900ms steps(2, end) 3 forwards;
+}
+
+.menu-in {
+  animation: reveal 320ms ease;
+}
+
+.lang-pop {
+  animation: reveal 180ms ease;
+}
+
+.hero-settle {
+  animation: hero-settle 1.8s ease both;
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  .reveal.reveal-in {
+    animation: reveal 700ms ease both;
+  }
+
+  .rise {
+    animation: reveal 800ms ease both;
+  }
+}
+
+html[lang="hy"] body,
+html[lang="hy"] .font-display {
+  font-family: var(--font-armenian), ui-sans-serif, system-ui, sans-serif;
+}
+
+html[lang="hy"] .uppercase {
+  letter-spacing: 0.03em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .reveal-in {
+  html.page-leave body,
+  html.page-enter body,
+  .menu-in,
+  .lang-pop,
+  .hero-settle,
+  .rise,
+  .reveal,
+  .reveal.reveal-in {
     animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .type-char {
+    animation: none;
+    opacity: 1;
+  }
+
+  .type-caret {
+    display: none;
   }
 }

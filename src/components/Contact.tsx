@@ -1,7 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { contact, placeholders, services, site } from "@/content/site";
+import { contact, services, site, whatsappHref, type ServiceId } from "@/content/site";
+import { useI18n } from "@/i18n/provider";
 import { Reveal } from "./Reveal";
 
 type FieldName = "name" | "phone" | "email" | "postcode" | "service" | "message" | "photo";
@@ -11,7 +12,7 @@ type FormState = {
   phone: string;
   email: string;
   postcode: string;
-  service: string;
+  service: "" | ServiceId;
   message: string;
   photo: File | null;
 };
@@ -39,22 +40,9 @@ function isUkPostcode(value: string) {
   return /^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/.test(value.toUpperCase().replace(/\s+/g, ""));
 }
 
-function validate(form: FormState) {
-  const errors: Partial<Record<FieldName, string>> = {};
-  if (form.name.trim().length < 2) errors.name = "Enter your name.";
-  if (!isUkPhone(form.phone)) errors.phone = "Enter a UK phone number.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = "Enter a valid email address.";
-  if (!isUkPostcode(form.postcode)) errors.postcode = "Enter a UK postcode.";
-  if (!services.some((service) => service.title === form.service)) errors.service = "Choose a service.";
-  if (form.message.trim().length < 10) errors.message = "Tell us a little about the work (at least 10 characters).";
-  if (form.photo) {
-    if (!form.photo.type.startsWith("image/")) errors.photo = "The attachment needs to be an image.";
-    else if (form.photo.size > 5 * 1024 * 1024) errors.photo = "Please use a photo smaller than 5 MB.";
-  }
-  return errors;
-}
-
 export function Contact() {
+  const { messages } = useI18n();
+  const copy = messages.contact;
   const [form, setForm] = useState<FormState>(emptyForm);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error" | "unconfigured">("idle");
@@ -63,6 +51,21 @@ export function Contact() {
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
     setErrors((current) => ({ ...current, [key]: undefined }));
+  }
+
+  function validate(value: FormState) {
+    const next: Partial<Record<FieldName, string>> = {};
+    if (value.name.trim().length < 2) next.name = copy.errors.name;
+    if (!isUkPhone(value.phone)) next.phone = copy.errors.phone;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.email.trim())) next.email = copy.errors.email;
+    if (!isUkPostcode(value.postcode)) next.postcode = copy.errors.postcode;
+    if (!services.some((service) => service.id === value.service)) next.service = copy.errors.service;
+    if (value.message.trim().length < 10) next.message = copy.errors.message;
+    if (value.photo) {
+      if (!value.photo.type.startsWith("image/")) next.photo = copy.errors.photoType;
+      else if (value.photo.size > 5 * 1024 * 1024) next.photo = copy.errors.photoSize;
+    }
+    return next;
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -80,15 +83,18 @@ export function Contact() {
       return;
     }
 
+    const serviceId = form.service;
+    if (!serviceId) return;
+
     setStatus("submitting");
     const body = new FormData();
     body.set("name", form.name.trim());
     body.set("phone", form.phone.trim());
     body.set("email", form.email.trim());
     body.set("postcode", form.postcode.trim().toUpperCase());
-    body.set("service", form.service);
+    body.set("service", messages.services.items[serviceId].title);
     body.set("message", form.message.trim());
-    body.set("_subject", "New quote enquiry — Briteline website");
+    body.set("_subject", copy.subject);
     body.set("_replyto", form.email.trim());
     if (form.photo) body.set("photo", form.photo);
 
@@ -111,18 +117,12 @@ export function Contact() {
     <section id="contact" className="scroll-mt-24 bg-white py-20 md:py-28">
       <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
         <Reveal>
-          <p className="font-display text-xs font-medium uppercase tracking-[0.2em] text-slate">
-            Contact
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-medium text-navy md:text-4xl">
-            Ask for a quote
-          </h2>
-          <p className="mt-4 text-base leading-7 text-muted">
-            Tell us about the room and we will come back to you to arrange a visit.
-          </p>
+          <p className="font-display text-xs font-medium uppercase tracking-[0.2em] text-slate">{copy.eyebrow}</p>
+          <h2 className="mt-3 font-display text-3xl font-medium text-balance text-navy md:text-4xl">{copy.title}</h2>
+          <p className="mt-4 text-base leading-7 text-muted">{copy.intro}</p>
           <dl className="mt-8 space-y-4 text-sm">
             <div>
-              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">Phone</dt>
+              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">{copy.phone}</dt>
               <dd className="mt-1">
                 <a href={contact.phoneTel} className="text-lg text-navy hover:underline">
                   {contact.phoneDisplay}
@@ -130,7 +130,7 @@ export function Contact() {
               </dd>
             </div>
             <div>
-              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">Email</dt>
+              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">{copy.email}</dt>
               <dd className="mt-1">
                 <a href={contact.emailHref} className="text-navy hover:underline">
                   {contact.email}
@@ -138,21 +138,21 @@ export function Contact() {
               </dd>
             </div>
             <div>
-              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">WhatsApp</dt>
+              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">{copy.whatsapp}</dt>
               <dd className="mt-1">
                 <a
-                  href={contact.whatsappHref}
+                  href={whatsappHref(messages.whatsapp.message)}
                   className="inline-flex bg-navy px-4 py-3 font-display text-xs font-medium uppercase tracking-[0.16em] text-white hover:bg-[#02386f]"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Message on WhatsApp
+                  {copy.whatsappCta}
                 </a>
               </dd>
             </div>
             <div>
-              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">Service area</dt>
-              <dd className="mt-1 max-w-sm text-muted">{placeholders.serviceArea}</dd>
+              <dt className="font-display text-xs uppercase tracking-[0.16em] text-slate">{copy.serviceArea}</dt>
+              <dd className="mt-1 max-w-sm text-muted">{copy.serviceAreaValue}</dd>
             </div>
           </dl>
         </Reveal>
@@ -160,25 +160,23 @@ export function Contact() {
         <form onSubmit={onSubmit} noValidate className="border border-navy/10 bg-paper p-5 sm:p-8">
           <div aria-live="polite">
             {status === "success" ? (
-              <p className="mb-6 border border-navy/15 bg-white px-4 py-3 text-sm text-navy">
-                Thank you. We have received your enquiry and will be in touch.
-              </p>
+              <p className="mb-6 border border-navy/15 bg-white px-4 py-3 text-sm text-navy">{copy.success}</p>
             ) : null}
             {status === "error" ? (
               <p className="mb-6 border border-[#8C2F2F]/30 bg-white px-4 py-3 text-sm text-[#8C2F2F]" role="alert">
-                The form could not be sent. Please call or email us and we will take the details from you.
+                {copy.error}
               </p>
             ) : null}
             {status === "unconfigured" ? (
               <p className="mb-6 border border-navy/15 bg-white px-4 py-3 text-sm text-ink" role="status">
-                The online form is not connected yet. Please call, email or WhatsApp us and we will arrange the quote.
+                {copy.unconfigured}
               </p>
             ) : null}
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="block text-sm text-ink">
-              Name
+              {copy.name}
               <input
                 name="name"
                 autoComplete="name"
@@ -191,7 +189,7 @@ export function Contact() {
               {errors.name ? <span id="name-error" className="mt-1 block text-sm text-[#8C2F2F]">{errors.name}</span> : null}
             </label>
             <label className="block text-sm text-ink">
-              Phone
+              {copy.phone}
               <input
                 name="phone"
                 type="tel"
@@ -205,7 +203,7 @@ export function Contact() {
               {errors.phone ? <span id="phone-error" className="mt-1 block text-sm text-[#8C2F2F]">{errors.phone}</span> : null}
             </label>
             <label className="block text-sm text-ink">
-              Email
+              {copy.email}
               <input
                 name="email"
                 type="email"
@@ -219,7 +217,7 @@ export function Contact() {
               {errors.email ? <span id="email-error" className="mt-1 block text-sm text-[#8C2F2F]">{errors.email}</span> : null}
             </label>
             <label className="block text-sm text-ink">
-              Postcode
+              {copy.postcode}
               <input
                 name="postcode"
                 autoComplete="postal-code"
@@ -234,19 +232,19 @@ export function Contact() {
           </div>
 
           <label className="mt-5 block text-sm text-ink">
-            Service
+            {copy.service}
             <select
               name="service"
               value={form.service}
-              onChange={(event) => update("service", event.target.value)}
+              onChange={(event) => update("service", event.target.value as FormState["service"])}
               aria-invalid={Boolean(errors.service)}
               aria-describedby={errors.service ? "service-error" : undefined}
               className={fieldClass}
             >
-              <option value="">Select a service</option>
+              <option value="">{copy.servicePlaceholder}</option>
               {services.map((service) => (
-                <option key={service.id} value={service.title}>
-                  {service.title}
+                <option key={service.id} value={service.id}>
+                  {messages.services.items[service.id].title}
                 </option>
               ))}
             </select>
@@ -254,7 +252,7 @@ export function Contact() {
           </label>
 
           <label className="mt-5 block text-sm text-ink">
-            Message
+            {copy.message}
             <textarea
               name="message"
               rows={5}
@@ -269,7 +267,7 @@ export function Contact() {
 
           <div className="mt-5">
             <label className="block text-sm text-ink">
-              Photo of the space <span className="text-muted">(optional)</span>
+              {copy.photo} <span className="text-muted">({copy.optional})</span>
               <input
                 key={fileKey}
                 name="photo"
@@ -282,7 +280,7 @@ export function Contact() {
               />
             </label>
             <p id="photo-hint" className="mt-2 text-sm text-muted">
-              JPEG, PNG or WEBP, up to 5 MB.
+              {copy.photoHint}
             </p>
             {errors.photo ? <p id="photo-error" className="mt-1 text-sm text-[#8C2F2F]">{errors.photo}</p> : null}
           </div>
@@ -292,7 +290,7 @@ export function Contact() {
             disabled={status === "submitting"}
             className="mt-6 inline-flex bg-navy px-5 py-3.5 font-display text-xs font-medium uppercase tracking-[0.16em] text-white hover:bg-[#02386f] disabled:opacity-60"
           >
-            {status === "submitting" ? "Sending…" : "Send enquiry"}
+            {status === "submitting" ? copy.sending : copy.submit}
           </button>
         </form>
       </div>

@@ -4,9 +4,11 @@ import { Pause, Play } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { videoTour } from "@/content/site";
+import { useI18n } from "@/i18n/provider";
 import { Reveal } from "./Reveal";
 
 export function VideoSection() {
+  const { messages } = useI18n();
   const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const shouldPlay = useRef(false);
@@ -79,12 +81,12 @@ export function VideoSection() {
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
         <Reveal>
           <p className="font-display text-xs font-medium uppercase tracking-[0.2em] text-slate">
-            On site
+            {messages.video.eyebrow}
           </p>
-          <h2 id="bathroom-tour-title" className="mt-3 font-display text-3xl font-medium text-navy md:text-4xl">
-            {videoTour.title}
+          <h2 id="bathroom-tour-title" className="mt-3 font-display text-3xl font-medium text-balance text-navy md:text-4xl">
+            {messages.video.title}
           </h2>
-          <p className="mt-4 max-w-md text-base leading-7 text-muted">{videoTour.body}</p>
+          <p className="mt-4 max-w-md text-base leading-7 text-muted">{messages.video.body}</p>
         </Reveal>
         <div ref={frameRef} className="mx-auto w-full max-w-[280px]">
           <div className="relative aspect-[464/832] overflow-hidden border border-navy/15 bg-paper">
@@ -97,14 +99,14 @@ export function VideoSection() {
                 playsInline
                 loop
                 preload="metadata"
-                aria-label={videoTour.title}
+                aria-label={messages.video.title}
               >
                 <source src={videoTour.src} type="video/mp4" />
               </video>
             ) : (
               <Image
                 src={videoTour.poster}
-                alt={videoTour.posterAlt}
+                alt={messages.video.posterAlt}
                 fill
                 sizes="280px"
                 className="object-cover"
@@ -116,7 +118,7 @@ export function VideoSection() {
               className="absolute right-3 bottom-3 inline-flex h-11 items-center gap-2 bg-white/95 px-3 text-sm font-medium text-navy"
             >
               {playing ? <Pause aria-hidden="true" size={16} /> : <Play aria-hidden="true" size={16} />}
-              {playing ? "Pause" : "Play"}
+              {playing ? messages.video.pause : messages.video.play}
             </button>
           </div>
         </div>

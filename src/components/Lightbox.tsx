@@ -4,17 +4,31 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import type { GalleryImage } from "@/content/site";
+import { fill } from "@/i18n/fill";
+import { useI18n } from "@/i18n/provider";
 import { lockBodyScroll, trapTabKey } from "@/lib/a11y";
 
+export type Slide = {
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  caption: string;
+  width: number;
+  height: number;
+  size: "standard" | "thumb";
+  category: string;
+};
+
 type LightboxProps = {
-  images: GalleryImage[];
+  images: Slide[];
   index: number;
   onClose: () => void;
   onIndex: (index: number) => void;
 };
 
 export function Lightbox({ images, index, onClose, onIndex }: LightboxProps) {
+  const { messages } = useI18n();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const startX = useRef<number | null>(null);
@@ -91,7 +105,7 @@ export function Lightbox({ images, index, onClose, onIndex }: LightboxProps) {
     >
       <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <p className="text-sm text-[#E7EDF3]">
-          {index + 1} of {images.length}
+          {fill(messages.lightbox.counter, { current: index + 1, total: images.length })}
         </p>
         <button
           ref={closeRef}
@@ -99,7 +113,7 @@ export function Lightbox({ images, index, onClose, onIndex }: LightboxProps) {
           onClick={onClose}
           className="focus-white inline-flex h-11 w-11 items-center justify-center"
         >
-          <span className="sr-only">Close gallery</span>
+          <span className="sr-only">{messages.lightbox.close}</span>
           <X aria-hidden="true" />
         </button>
       </div>
@@ -110,7 +124,7 @@ export function Lightbox({ images, index, onClose, onIndex }: LightboxProps) {
             onClick={() => go(-1)}
             className="focus-white absolute left-2 z-10 inline-flex h-11 w-11 items-center justify-center bg-white/10 sm:left-4"
           >
-            <span className="sr-only">Previous project</span>
+            <span className="sr-only">{messages.lightbox.previous}</span>
             <ChevronLeft aria-hidden="true" />
           </button>
         ) : null}
@@ -129,7 +143,7 @@ export function Lightbox({ images, index, onClose, onIndex }: LightboxProps) {
             onClick={() => go(1)}
             className="focus-white absolute right-2 z-10 inline-flex h-11 w-11 items-center justify-center bg-white/10 sm:right-4"
           >
-            <span className="sr-only">Next project</span>
+            <span className="sr-only">{messages.lightbox.next}</span>
             <ChevronRight aria-hidden="true" />
           </button>
         ) : null}

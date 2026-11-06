@@ -2,20 +2,17 @@
 
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
-import {
-  projectFilters,
-  type GalleryImage,
-  type ProjectFilter,
-} from "@/content/site";
-import { Lightbox } from "./Lightbox";
+import { projectFilters, type GalleryImage, type ProjectFilter, type ProjectId } from "@/content/site";
+import { useI18n } from "@/i18n/provider";
+import { Lightbox, type Slide } from "./Lightbox";
 
 type GalleryProps = {
-  images: GalleryImage[];
+  images: readonly GalleryImage[];
   layout?: "editorial" | "catalog";
   showFilters?: boolean;
 };
 
-function cellClass(image: GalleryImage, index: number, layout: "editorial" | "catalog") {
+function cellClass(image: Pick<GalleryImage, "size">, index: number, layout: "editorial" | "catalog") {
   if (image.size === "thumb") return "col-span-1 max-w-40 justify-self-start md:col-span-3";
   if (layout === "catalog") return "col-span-2 md:col-span-4";
   if (index === 0) return "col-span-2 md:col-span-7";
@@ -24,35 +21,45 @@ function cellClass(image: GalleryImage, index: number, layout: "editorial" | "ca
 }
 
 export function Gallery({ images, layout = "catalog", showFilters = false }: GalleryProps) {
+  const { messages } = useI18n();
   const [filter, setFilter] = useState<ProjectFilter>("all");
   const [active, setActive] = useState<number | null>(null);
   const close = useCallback(() => setActive(null), []);
 
+  const slides = useMemo<Slide[]>(
+    () =>
+      images.map((image) => {
+        const copy = messages.projects.items[image.id as ProjectId];
+        return { ...image, title: copy.title, caption: copy.caption, alt: copy.alt };
+      }),
+    [images, messages],
+  );
+
   const visible = useMemo(
-    () => images.filter((image) => filter === "all" || image.category === filter),
-    [filter, images],
+    () => slides.filter((image) => filter === "all" || image.category === filter),
+    [filter, slides],
   );
 
   return (
     <div>
       {showFilters ? (
-        <div role="group" aria-label="Filter projects" className="mb-8 flex flex-wrap gap-2">
-          {projectFilters.map((item) => {
-            const selected = filter === item.id;
+        <div role="group" aria-label={messages.projects.filtersLabel} className="mb-8 flex flex-wrap gap-2">
+          {projectFilters.map((id) => {
+            const selected = filter === id;
             return (
               <button
-                key={item.id}
+                key={id}
                 type="button"
                 aria-pressed={selected}
                 onClick={() => {
-                  setFilter(item.id);
+                  setFilter(id);
                   setActive(null);
                 }}
-                className={`px-4 py-2 font-display text-xs font-medium uppercase tracking-[0.16em] ${
+                className={`px-4 py-2 font-display text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-200 ${
                   selected ? "bg-navy text-white" : "border border-navy/15 bg-white text-ink hover:border-navy"
                 }`}
               >
-                {item.label}
+                {messages.projects.filters[id]}
               </button>
             );
           })}
@@ -60,16 +67,12 @@ export function Gallery({ images, layout = "catalog", showFilters = false }: Gal
       ) : null}
 
       {visible.length === 0 ? (
-        <p className="text-muted">No projects in this category yet.</p>
+        <p className="text-muted">{messages.projects.empty}</p>
       ) : (
         <ul className="grid grid-cols-2 gap-4 md:grid-cols-12 md:gap-5">
           {visible.map((image, index) => (
             <li key={image.id} className={cellClass(image, index, layout)}>
-              <button
-                type="button"
-                onClick={() => setActive(index)}
-                className="group block w-full text-left"
-              >
+              <button type="button" onClick={() => setActive(index)} className="group block w-full text-left">
                 <span
                   className={`relative block overflow-hidden bg-paper ${
                     image.size === "thumb"
@@ -100,12 +103,7 @@ export function Gallery({ images, layout = "catalog", showFilters = false }: Gal
       )}
 
       {active !== null ? (
-        <Lightbox
-          images={visible}
-          index={active}
-          onClose={close}
-          onIndex={setActive}
-        />
+        <Lightbox images={visible} index={active} onClose={close} onIndex={setActive} />
       ) : null}
     </div>
   );
