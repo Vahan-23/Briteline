@@ -84,17 +84,12 @@ export function Header() {
   }, [menuId, open]);
 
   return (
-    <div
-      ref={shellRef}
-      inert={hidden && !open}
-      className={`sticky top-0 z-50 transition-[transform,opacity] duration-500 ease-out motion-reduce:transition-none ${
-        hidden && !open ? "pointer-events-none -translate-y-full opacity-0" : "translate-y-0 opacity-100"
-      }`}
-    >
+    <div ref={shellRef} className={`sticky top-0 z-50 ${hidden && !open ? "pointer-events-none" : ""}`}>
       <header
-        className={`relative z-50 border-b bg-white/95 backdrop-blur-sm transition-[box-shadow,border-color] ${
-          compact || open ? "border-navy/10 shadow-[0_8px_24px_rgba(1,42,85,0.06)]" : "border-transparent"
-        }`}
+        inert={hidden && !open}
+        className={`relative z-50 border-b bg-white/95 backdrop-blur-sm transition-[transform,opacity,box-shadow,border-color] duration-500 ease-out motion-reduce:transition-none ${
+          hidden && !open ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
+        } ${compact || open ? "border-navy/10 shadow-[0_8px_24px_rgba(1,42,85,0.06)]" : "border-transparent"}`}
       >
         <div
           className={`mx-auto flex max-w-6xl items-center gap-3 px-4 transition-[height] sm:px-6 lg:gap-5 lg:px-8 ${
